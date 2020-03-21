@@ -8,13 +8,13 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>cloud-provider-payment8001</artifactId>
+    <artifactId>cloud-provider-payment-zookeeper8003</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
         </dependency>
         <dependency>
             <groupId>top.gradual</groupId>

@@ -1,13 +1,10 @@
 package top.gradual.springcloud.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +29,6 @@ public class PaymentController {
     @Value("${server.port}")
     private String serverPort;
 
-    @Resource
-    private DiscoveryClient discoveryClient;
-
     @PostMapping("/payment/create")
     public CommonResult create(@RequestBody Payment payment) {
         int result = paymentService.create(payment);
@@ -55,17 +49,6 @@ public class PaymentController {
         } else {
             return new CommonResult<Payment>(400, "查询失败" + serverPort, null);
         }
-    }
-
-    @GetMapping("/payment/discovery")
-    public Object discovery() {
-        List<String> services = discoveryClient.getServices();
-        services.forEach(str -> log.info("service -> {}", str));
-        System.out.println("------------------");
-        List<ServiceInstance> instances = discoveryClient.getInstances("cloud-payment-service");
-        instances.forEach(instance -> log.info("instance -> serviceId: {}, host: {}, port: {}, uri: {}", instance.getServiceId(), instance.getHost(), instance.getPort(), instance.getUri()));
-        System.out.println("------------------");
-        return discoveryClient;
     }
 
 }
