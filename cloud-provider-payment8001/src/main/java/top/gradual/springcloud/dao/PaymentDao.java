@@ -2,7 +2,6 @@ package top.gradual.springcloud.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 import top.gradual.springcloud.entities.Payment;
 
 /**

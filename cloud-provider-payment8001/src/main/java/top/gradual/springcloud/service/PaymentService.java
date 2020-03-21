@@ -1,6 +1,5 @@
 package top.gradual.springcloud.service;
 
-import org.springframework.stereotype.Service;
 import top.gradual.springcloud.entities.Payment;
 
 /**
