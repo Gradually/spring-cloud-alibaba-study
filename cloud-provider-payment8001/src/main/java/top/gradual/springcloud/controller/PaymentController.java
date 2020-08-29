@@ -46,7 +46,7 @@ public class PaymentController {
         }
     }
 
-    @GetMapping("/payment/{id}")
+    @GetMapping("/payment/get/{id}")
     public CommonResult<Payment> getPaymentById(@PathVariable long id) {
         Payment paymentById = paymentService.getPaymentById(id);
         log.info("查询结果: result -> {}", paymentById);
@@ -54,6 +54,16 @@ public class PaymentController {
             return new CommonResult<Payment>(200, "查询成功" + serverPort, paymentById);
         } else {
             return new CommonResult<Payment>(400, "查询失败" + serverPort, null);
+        }
+    }
+
+    @GetMapping("/payment/lb/{id}")
+    public CommonResult<Payment> getPaymentByIdWithLb(@PathVariable long id) {
+        Payment paymentById = paymentService.getPaymentById(id);
+        if (paymentById != null) {
+            return new CommonResult<Payment>(200, "lb 查询成功" + serverPort, paymentById);
+        } else {
+            return new CommonResult<Payment>(400, "lb 查询失败" + serverPort, null);
         }
     }
 

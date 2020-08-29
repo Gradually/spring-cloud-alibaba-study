@@ -1,0 +1,45 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          ## 开启从注册中心动态创建路由的功能,利用微服务名进行路由
+          enabled: true
+      routes:
+        - id: payment_routh
+#          uri: http://localhost:8001
+          ## 匹配服务地址
+          uri: lb://cloud-payment-service
+          predicates:
+            ## 匹配路径
+            - Path=/payment/get/**
+            ## 匹配指定时间之后(通过ZonedDateTime即可获取时间格式) Before(时间之前)类似,Between(时间之间)两个时间用逗号分隔即可
+            - After=2020-08-29T15:04:23.630+08:00[Asia/Shanghai]
+            ## 匹配Cookie (Cookie Name, 正则表达式) 测试: curl -X GET http://localhost:9527/payment/get/1 --cookie "username=zzyy"
+#            - Cookie=username, zzyy
+            ## 匹配请求头,(请求头名, 正则表达式) 测试:curl -X GET http://localhost:9527/payment/get/1 -H "X-Request-Id:111"
+#            - Header=X-Request-Id, \d+
+            ## 匹配Host 测试: curl -X GET http://localhost:9527/payment/get/1 -H "Host: www.baidu.com"
+#            - Host=www.baidu.com
+            ## 匹配请求方法
+#            - Method=GET
+            ## 匹配查询条件(键为username,值为整数)
+#            - Query=username, \d+
+        - id: payment_routh2
+#          uri: http://localhost:8001
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/payment/lb/**
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
